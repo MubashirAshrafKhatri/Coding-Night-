@@ -1,15 +1,201 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MYBOOK</title>
+  <link rel="stylesheet" href="style.css?v=20251123" />
 </head>
 <body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">MY</div>
+      <div>
+        <div style="font-weight:700">MYBOOK</div>
+      </div>
+  <div class="search"><input id="globalSearch" placeholder="Search posts, people or groups"></div>
+    </div>
+    <div class="top-actions">
+      <button id="themeToggle" title="Toggle theme">🌙</button>
+      <button id="loginBtnTop">Login / Signup</button>
+      <button id="profileBtn" class="hidden">Profile</button>
+      <button id="logoutBtn" class="hidden">Logout</button>
+    </div>
+  </div>
+
+  <div id="mainApp" class="container hidden">
+    <aside class="sidebar">
+      <div class="card">
+        <div class="profile-mini">
+          <div id="leftAvatar" class="avatar">U</div>
+          <div>
+            <div id="leftName">Guest</div>
+            <div style="font-size:12px;color:var(--muted)">Welcome to FaceLike</div>
+          </div>
+        </div>
+        <div class="menu">
+          <a href="#">Home</a>
+          <a href="#">Friends</a>
+          <a href="#">Groups</a>
+          <a href="#">Marketplace</a>
+        </div>
+      </div>
+
+      <div style="height:12px"></div>
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:8px">Shortcuts</div>
+        <div style="font-size:13px;color:var(--muted)">Create a page, Events, Saved</div>
+      </div>
+    </aside>
+
+    <main class="feed">
+      <div class="feed-toolbar card">
+        <div class="toolbar-left">
+          <div class="toolbar-title">Feed</div>
+          <div class="filter-pills" role="tablist" aria-label="Filters">
+            <button class="pill active" data-filter="all">All</button>
+            <button class="pill" data-filter="withImage">With images</button>
+            <button class="pill" data-filter="mine">My posts</button>
+          </div>
+        </div>
+
+        <div class="toolbar-right">
+          <div class="sort-pills" aria-label="Sort options">
+            <button class="sort-pill active" data-sort="latest">Latest</button>
+            <button class="sort-pill" data-sort="oldest">Oldest</button>
+            <button class="sort-pill" data-sort="most_liked">Most liked</button>
+          </div>
+          <label for="sortSelect" style="font-size:13px;color:var(--muted);margin-right:8px;display:none">Sort</label>
+          <select id="sortSelect" style="display:none">
+            <option value="latest">Latest</option>
+            <option value="oldest">Oldest</option>
+            <option value="most_liked">Most liked</option>
+          </select>
+          <span id="filterStatus" class="filter-status">All posts</span>
+          <button id="mobileSearchBtn" class="btn hidden-mobile" title="Search on mobile">🔍</button>
+        </div>
+      </div>
+      <div class="card composer">
+        <div class="composer-top">
+          <div class="avatar" id="composerAvatar">U</div>
+          <textarea id="composerText" rows="3" placeholder="What's on your mind?"></textarea>
+        </div>
+        <div class="controls">
+          <input id="composerImage" placeholder="Image URL (optional)" style="flex:1;padding:8px;border-radius:8px;border:1px solid #e6e9ee">
+          <label class="btn" style="border:1px dashed #e6e9ee;padding:8px;border-radius:8px;display:flex;align-items:center;gap:8px;cursor:pointer">
+            📁 Upload
+            <input id="composerFile" type="file" accept="image/*" style="display:none">
+          </label>
+          <div>
+            <button id="publishBtn" class="btn btn-primary">Post</button>
+          </div>
+        </div>
+        <div id="notice" style="font-size:13px;color:var(--muted);margin-top:8px">Note: Login required to enable full functionality.</div>
+      </div>
+
+      <div id="postsContainer"></div>
+    </main>
+
+    <aside>
+      <div class="card suggestions">
+        <h4>People you may know</h4>
+        <div class="item"><div class="avatar">A</div><div><div style="font-weight:700">Ali</div><div style="font-size:13px;color:var(--muted)">2 mutual friends</div></div><button class="btn" style="margin-left:auto">Add</button></div>
+        <div class="item"><div class="avatar">S</div><div><div style="font-weight:700">Sarah</div><div style="font-size:13px;color:var(--muted)">New here</div></div><button class="btn" style="margin-left:auto">Add</button></div>
+      </div>
+
+      <div style="height:12px"></div>
+      <div class="card">
+        <div style="font-weight:700">Trends</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:8px">#codingnight • #frontend • #design</div>
+      </div>
+    </aside>
+  </div>
+
+    <div id="authOverlay" class="overlay hidden">
+      <div class="auth-box card">
+        <div class="auth-left">
+          <div class="auth-brand">
+            <div class="logo">MY</div>
+            <div class="brand-text">
+              <div class="brand-title">MYBOOK</div>
+              <div class="brand-sub">Connect with friends and share moments</div>
+            </div>
+          </div>
+          <p class="auth-cta">Join your community — sign in to post, react and follow updates.</p>
+        </div>
+        <div class="auth-right">
+          <button id="authClose" class="btn auth-close" title="Close">✕</button>
+          <h3 id="authTitle">Log in</h3>
+          <input id="authName" placeholder="Full name (for signup)" class="hidden auth-input">
+          <input id="authEmail" placeholder="Email" class="auth-input">
+          <input id="authPassword" placeholder="Password" type="password" class="auth-input">
+          <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+            <button id="authSubmit" class="btn btn-primary btnOne">Login</button>
+            <button id="authSwitch" class="btn btnTwo">Signup</button>
+            <a href="#" id="forgot" style="margin-left:auto;font-size:13px;color:var(--muted);text-decoration:none">Forgot?</a>
+          </div>
+          <div style="margin-top:12px;font-size:13px;color:var(--muted)">Or continue with</div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn" style="flex:1">Google</button>
+            <button class="btn" style="flex:1">Facebook</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Search modal for mobile -->
+  <div id="searchModal" class="modal-overlay">
+    <div class="modal">
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="mobileSearchInput" type="text" placeholder="Search posts or people">
+        <button id="mobileSearchClose" class="btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit modal -->
+  <div id="editModal" class="modal-overlay">
+    <div class="modal">
+      <h3>Edit post</h3>
+      <textarea id="editTextarea" rows="4"></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;justify-content:flex-end">
+        <button id="editCancel" class="btn">Cancel</button>
+        <button id="editSave" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile modal -->
+  <div id="profileModal" class="modal-overlay">
+    <div class="modal">
+      <h3>Your profile</h3>
+      <div style="margin-top:8px">
+        <label style="font-size:13px;color:var(--muted)">Display name</label>
+        <input id="profileName" type="text" placeholder="Your name" />
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end">
+        <button id="profileCancel" class="btn">Close</button>
+        <button id="profileSave" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+
+      <!-- Lightbox modal for post images -->
+      <div id="lightboxModal" class="modal-overlay">
+        <div class="modal" style="max-width:90vw;max-height:90vh;display:flex;align-items:center;justify-content:center;flex-direction:column">
+          <img id="lightboxImg" src="" alt="Preview" style="max-width:100%;max-height:80vh;border-radius:12px" />
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button id="lightboxDownload" class="btn">Download</button>
+            <button id="lightboxShare" class="btn">Share</button>
+            <button id="lightboxClose" class="btn">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast notification -->
+      <div id="toast" class="toast hidden"></div>
+  </div>
 
     <script src="app.js"></script>
-    <h1>hello</h1>
-    
+    <div id="reactorsTooltip" class="reactors-tooltip" role="dialog" aria-hidden="true"></div>
 </body>
 </html>
